@@ -1,0 +1,57 @@
+!alias bastion create
+embed
+<drac2>
+
+# Get the active character
+character = ctx.author.character()
+
+if not character:
+    return f'{{"desc": ":warning: No active character found. Please make sure you have an active character."}}'
+
+char_name = character.name
+
+if character.get_cvar("level") < 5:
+    return f'{{"desc": ":x: Bastion Creation Failed: Character {char_name} is too low level to own a bastion. Reach level 5 first!"}}'
+
+# Load existing bastion for the character or initialize an empty dictionary
+bastion = load_json(character.get_cvar("bastion") or "{}")
+
+# Check if the character already has a bastion
+if bastion:
+    return f'{{"desc": ":x: Bastion Creation Failed: Character {char_name} already has a bastion."}}'
+
+# Create a new bastion for the character
+bastion = {
+    "name": f"{char_name}'s Bastion",
+    "level": 5,
+    # User should define what these are in follow-up command prompts. Maybe let them use a number to pick one from the list?
+    "basic facilities": [
+        {
+            "facility type": "Type but maybe an enum should go here",
+            "facility size": "Cramped", # Maybe we should use enums here if python has them?
+        },
+        {
+            "facility type": "Type but maybe an enum should go here",
+            "facility size": "Roomy",
+        },
+    ],
+    "special facilities": [
+        1: "Data?",
+        2: "Data2?", # 1/2 at 5
+        # Frankly, we should either have a way to empty/null out the below values or just not have them at all until viable
+        3: "3rdData?",
+        4: "Level 9 I believe", # 3/4 at 9
+        5: "Level 13" # 5 at 13
+        6: "Level 17 gives me one here", # 6 at 17
+    ]
+}
+
+# Save the updated bastion data as a character variable
+character.set_cvar("bastion", dump_json(bastion))
+
+success_message = f":white_check_mark: Bastion for {char_name} has been successfully created."
+footer = "||  Use !help bastion for more commands  || by YourName"
+
+# Return success message
+return f'{{"desc": "{success_message}", "footer": "{footer}"}}'
+</drac2>
