@@ -8,30 +8,41 @@ character = ctx.author.character()
 if not character:
     return f'{{"desc": ":warning: No active character found. Please make sure you have an active character."}}'
 
-char_name = character.name
+charName = character.name
 
 if character.get_cvar("level") < 5:
-    return f'{{"desc": ":x: Bastion Creation Failed: Character {char_name} is too low level to own a bastion. Reach level 5 first!"}}'
+    return f'{{"desc": ":x: Bastion Creation Failed: Character {charName} is too low level to own a bastion. Reach level 5 first!"}}'
 
 # Load existing bastion for the character or initialize an empty dictionary
 bastion = load_json(character.get_cvar("bastion") or "{}")
 
 # Check if the character already has a bastion
 if bastion:
-    return f'{{"desc": ":x: Bastion Creation Failed: Character {char_name} already has a bastion."}}'
+    return f'{{"desc": ":x: Bastion Creation Failed: Character {charName} already has a bastion."}}'
+
+# List of default available basic facilities
+basicFacilities = {
+    "Bedroom",
+    "Courtyard",
+    "Dining Room",
+    "Kitchen",
+    "Parlor",
+    "Storage",
+    "Washroom"
+}
 
 # Create a new bastion for the character
 bastion = {
-    "name": f"{char_name}'s Bastion",
-    "level": 5,
+    "name": f"{charName}'s Bastion",
+    "level": 5, # Do we want a level field at all? Why not just always reference the character level? Maybe check against char level to see if we should upgrade?
     # User should define what these are in follow-up command prompts. Maybe let them use a number to pick one from the list?
     "basic facilities": [
         {
-            "facility type": "Type but maybe an enum should go here",
-            "facility size": "Cramped", # Maybe we should use enums here if python has them?
+            "facility type": "Bedroom",
+            "facility size": "Cramped",
         },
         {
-            "facility type": "Type but maybe an enum should go here",
+            "facility type": "Dining Room",
             "facility size": "Roomy",
         },
     ],
@@ -49,8 +60,8 @@ bastion = {
 # Save the updated bastion data as a character variable
 character.set_cvar("bastion", dump_json(bastion))
 
-success_message = f":white_check_mark: Bastion for {char_name} has been successfully created."
-footer = "||  Use !help bastion for more commands  || by YourName"
+success_message = f":white_check_mark: Bastion for {charName} has been successfully created."
+footer = "||  Use !help bastion for more commands  || by Caladrel"
 
 # Return success message
 return f'{{"desc": "{success_message}", "footer": "{footer}"}}'
