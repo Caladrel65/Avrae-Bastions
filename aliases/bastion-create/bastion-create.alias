@@ -1,4 +1,4 @@
-!alias "bastion create"
+!alias "bastion-create"
 embed
 <drac2>
 footer = "||  Use !help bastion for more commands  || by Caladrel"

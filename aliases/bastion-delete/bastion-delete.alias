@@ -1,0 +1,39 @@
+!alias "bastion-delete" embed
+<drac2>
+footer = "|| Use !help bastion for more commands || by Caladrel"
+confirmation_window = 15  # 15 seconds for confirmation
+
+# Get the active character
+char = character()
+
+if not char:
+    return ":warning: No active character found. Please make sure you have an active character."
+
+char_name = char.name
+
+# Load existing bastion for the character or return a message if no bastion found
+bastion = load_json(char.get_cvar("bastion") or "{}")
+
+if not bastion:
+    return f":x: No bastion found for {char_name}. Use `!bastion create` to create one."
+
+# Get the current timestamp
+current_time = time()
+
+# Load the timestamp for the delete confirmation
+delete_ts = float(char.get_cvar("bastion_delete_ts") or 0)
+
+# Check if the command is within the confirmation window
+if current_time - delete_ts < confirmation_window:
+    # Clear the bastion data
+    char.delete_cvar("bastion")
+    char.delete_cvar("bastion_delete_ts")
+    return_string = f":white_check_mark: Bastion for {char_name} has been successfully deleted."
+else:
+    # Set the delete confirmation timestamp
+    char.set_cvar("bastion_delete_ts", str(current_time))
+    return_string = f":warning: This will delete all saved data for your bastion '{bastion['name']}'. Are you **SURE** you want to proceed? Run the command again within {confirmation_window} seconds to confirm."
+</drac2>
+
+-desc "{{return_string}}"
+-footer "{{footer}}"

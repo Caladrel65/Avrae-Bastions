@@ -6,4 +6,23 @@ Bastions are an optional rule created by Wizards of the Coast in their Unearthed
 
 I plan on adding a few suggested homebrew modifications to the system. When adding the alias to a server, the server owner will have the option to update default values to use these homebrew changes instead. Some are as simple as text changes (preserved as the default but suggested for clarity), while others may have mechanical changes such as expanding the requirements for the "Training Ground" Special Facility.
 
-Basic commands will be listed here in the future - stay tuned!
+My goal is for the following TENTATIVE commands to exist. Some may be different or omitted, and some may be added.
+
+- !bastion
+    This command should display current bastion info. It won't display descriptions but will provide facility types and sizes, which should be most of what a plain details sheet should need. It may also include defenders and stuff.
+
+- !bastion create
+    The command that starts it all for people, this should allow players to create a bastion at level 5. 
+
+- !bastion facilities
+    This will give some basic info on how to call the sub-commands and not do anything itself. Probably.
+
+- !bastion facilities basic
+    This should list all basic facilities
+
+- !bastion facilities special
+    This should list special facilities, likely in a compressed or paginated format. Perhaps requiring an argument.
+
+---
+
+I want to make bastions very server-configurable. Does your group want bastions to start at level 1? Great! Want to up the amount of special facilities you get at different levels? Sure! Add custom facilities? You got it!
