@@ -6,7 +6,8 @@ footer = "|| Use !help bastion for more commands || by Caladrel"
 char = character()
 
 if not char:
-    return ":warning: No active character found. Please make sure you have an active character."
+    return_string = ":warning: No active character found. Please make sure you have an active character."
+    return
 
 char_name = char.name
 
@@ -14,7 +15,8 @@ char_name = char.name
 bastion = load_json(char.get_cvar("bastion") or "{}")
 
 if not bastion:
-    return f":x: No bastion found for {char_name}. Use `!bastion create` to create one."
+    return_string = f":x: No bastion found for {char_name}. Use `!bastion create` to create one."
+    return
 
 # Format the bastion details
 bastion_name = bastion.get("name", f"{char_name}'s Bastion")

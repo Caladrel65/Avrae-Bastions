@@ -1,4 +1,4 @@
-!alias "bastion-create"
+!alias bastion-create
 embed
 <drac2>
 footer = "||  Use !help bastion for more commands  || by Caladrel"
@@ -7,12 +7,13 @@ footer = "||  Use !help bastion for more commands  || by Caladrel"
 char = character()
 
 if not char:
-    return ":warning: No active char found. Please make sure you have an active char."
+    return_string = ":warning: No active char found. Please make sure you have an active char."
+    return
 
 charName = char.name
 
 if level < 5:
-    return_string = f':x: Bastion Creation Failed: Character "{charName}" is too low level to own a bastion. Reach level 5 first!'
+    return_string = f":x: Bastion Creation Failed: Character \"{charName}\" is too low level to own a bastion. Reach level 5 first!"
     return
 
 # Load existing bastion for the character or initialize an empty dictionary
@@ -23,22 +24,10 @@ if bastion:
     return_string = f":x: Bastion Creation Failed: Character {charName} already has a bastion."
     return
 
-# List of default available basic facilities, probably move this to globals so we can validate inputs
-basicFacilities = {
-    "Bedroom",
-    "Courtyard",
-    "Dining Room",
-    "Kitchen",
-    "Parlor",
-    "Storage",
-    "Washroom"
-}
-
 # Create a new bastion for the character
 bastion = {
     "name": f"{charName}'s Bastion",
-    "level": level, # Do we want a level field at all? Why not just always reference the character level? Maybe check against character level to see if we should upgrade?
-    # User should define what these are in follow-up command prompts. Maybe let them use a number to pick one from the list?
+    "level": level,
     "basic facilities": [
         {
             "facility type": "Bedroom",
@@ -56,7 +45,6 @@ bastion = {
         {
             "2": "Data2?", # 1/2 at 5
         },
-        #"Frankly, we should either have a way to empty/null out the below values or just not have them at all until viable
         {
             "3": "3rdData?",
         },
@@ -78,5 +66,5 @@ char.set_cvar("bastion", dump_json(bastion))
 return_string = f":white_check_mark: Bastion for {charName} has been successfully created."
 </drac2>
 
--desc "{{return_string}}"
+-desc '{{return_string}}'
 -footer "{{footer}}"

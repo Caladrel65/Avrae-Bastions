@@ -1,4 +1,4 @@
-!alias "bastion-delete" embed
+!alias bastion-delete embed
 <drac2>
 footer = "|| Use !help bastion for more commands || by Caladrel"
 confirmation_window = 15  # 15 seconds for confirmation
@@ -7,7 +7,8 @@ confirmation_window = 15  # 15 seconds for confirmation
 char = character()
 
 if not char:
-    return ":warning: No active character found. Please make sure you have an active character."
+    return_string = ":warning: No active character found. Please make sure you have an active character."
+    return
 
 char_name = char.name
 
@@ -15,7 +16,8 @@ char_name = char.name
 bastion = load_json(char.get_cvar("bastion") or "{}")
 
 if not bastion:
-    return f":x: No bastion found for {char_name}. Use `!bastion create` to create one."
+    return_string = f":x: No bastion found for {char_name}. Use `!bastion create` to create one."
+    return
 
 # Get the current timestamp
 current_time = time()
