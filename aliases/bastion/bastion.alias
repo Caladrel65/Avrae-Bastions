@@ -1,1 +1,32 @@
-# TODO: Input a command that maybe displays the player's bastion?
+!alias bastion embed
+<drac2>
+footer = "|| Use !help bastion for more commands || by Caladrel"
+
+# Get the active character
+char = character()
+
+if not char:
+    return ":warning: No active character found. Please make sure you have an active character."
+
+char_name = char.name
+
+# Load existing bastion for the character or return a message if no bastion found
+bastion = load_json(char.get_cvar("bastion") or "{}")
+
+if not bastion:
+    return f":x: No bastion found for {char_name}. Use `!bastion create` to create one."
+
+# Format the bastion details
+bastion_name = bastion.get("name", f"{char_name}'s Bastion")
+basic_facilities = bastion.get("basic facilities", [])
+special_facilities = bastion.get("special facilities", [])
+
+basic_facilities_list = "\n".join([f"- {facility['facility type']} ({facility['facility size']})" for facility in basic_facilities])
+special_facilities_list = "\n".join([f"- {list(facility.values())[0]}" for facility in special_facilities])
+
+# Prepare the return string
+return_string = f"**{bastion_name}**\n\n**Basic Facilities:**\n{basic_facilities_list}\n\n**Special Facilities:**\n{special_facilities_list}"
+</drac2>
+
+-desc "{{return_string}}"
+-footer "{{footer}}"
