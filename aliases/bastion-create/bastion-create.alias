@@ -1,26 +1,29 @@
-!alias bastion create
+!alias bastion-create
 embed
 <drac2>
+footer = "||  Use !help bastion for more commands  || by Caladrel"
 
 # Get the active character
-character = ctx.author.character()
+char = character()
 
-if not character:
-    return f'{{"desc": ":warning: No active character found. Please make sure you have an active character."}}'
+if not char:
+    return ":warning: No active char found. Please make sure you have an active char."
 
-charName = character.name
+charName = char.name
 
-if character.get_cvar("level") < 5:
-    return f'{{"desc": ":x: Bastion Creation Failed: Character {charName} is too low level to own a bastion. Reach level 5 first!"}}'
+if level < 5:
+    return_string = f':x: Bastion Creation Failed: Character "{charName}" is too low level to own a bastion. Reach level 5 first!'
+    return
 
 # Load existing bastion for the character or initialize an empty dictionary
-bastion = load_json(character.get_cvar("bastion") or "{}")
+bastion = load_json(char.get_cvar("bastion") or "{}")
 
 # Check if the character already has a bastion
 if bastion:
-    return f'{{"desc": ":x: Bastion Creation Failed: Character {charName} already has a bastion."}}'
+    return_string = f":x: Bastion Creation Failed: Character {charName} already has a bastion."
+    return
 
-# List of default available basic facilities
+# List of default available basic facilities, probably move this to globals so we can validate inputs
 basicFacilities = {
     "Bedroom",
     "Courtyard",
@@ -34,7 +37,7 @@ basicFacilities = {
 # Create a new bastion for the character
 bastion = {
     "name": f"{charName}'s Bastion",
-    "level": 5, # Do we want a level field at all? Why not just always reference the character level? Maybe check against char level to see if we should upgrade?
+    "level": level, # Do we want a level field at all? Why not just always reference the character level? Maybe check against character level to see if we should upgrade?
     # User should define what these are in follow-up command prompts. Maybe let them use a number to pick one from the list?
     "basic facilities": [
         {
@@ -47,22 +50,33 @@ bastion = {
         },
     ],
     "special facilities": [
-        1: "Data?",
-        2: "Data2?", # 1/2 at 5
-        # Frankly, we should either have a way to empty/null out the below values or just not have them at all until viable
-        3: "3rdData?",
-        4: "Level 9 I believe", # 3/4 at 9
-        5: "Level 13" # 5 at 13
-        6: "Level 17 gives me one here", # 6 at 17
+        {
+            "1": "Data?",
+        },
+        {
+            "2": "Data2?", # 1/2 at 5
+        },
+        #"Frankly, we should either have a way to empty/null out the below values or just not have them at all until viable
+        {
+            "3": "3rdData?",
+        },
+        {
+            "4": "Level 9 I believe", # 3/4 at 9
+        },
+        {
+            "5": "Level 13" # 5 at 13
+        },
+        {
+            "6": "Level 17 gives me one here", # 6 at 17
+        },
     ]
 }
 
 # Save the updated bastion data as a character variable
-character.set_cvar("bastion", dump_json(bastion))
+char.set_cvar("bastion", dump_json(bastion))
 
-success_message = f":white_check_mark: Bastion for {charName} has been successfully created."
-footer = "||  Use !help bastion for more commands  || by Caladrel"
-
-# Return success message
-return f'{{"desc": "{success_message}", "footer": "{footer}"}}'
+return_string = f":white_check_mark: Bastion for {charName} has been successfully created."
 </drac2>
+
+-desc "{{return_string}}"
+-footer "{{footer}}"
