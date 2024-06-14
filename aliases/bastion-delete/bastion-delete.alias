@@ -1,5 +1,5 @@
-!alias bastion-delete embed
-<drac2>
+!alias bastion-delete
+embed <drac2>
 footer = "|| Use !help bastion for more commands || by Caladrel"
 confirmation_window = 15  # 15 seconds for confirmation
 

@@ -1,6 +1,5 @@
 !alias bastion-create
-embed
-<drac2>
+embed <drac2>
 footer = "||  Use !help bastion for more commands  || by Caladrel"
 
 # Get the active character
